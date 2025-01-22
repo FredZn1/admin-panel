@@ -1,0 +1,85 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Edit Order - E-commerce Admin Panel{% endblock %}
+
+{% block content %}
+    <header class="flex justify-between items-center mb-8">
+        <h2 class="text-3xl font-bold text-gray-800">Edit Order</h2>
+        <button class="md:hidden bg-indigo-600 text-white p-2 rounded" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <div class="bg-white p-6 rounded-lg shadow-md animate-fadeIn">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Order Information</h3>
+                    <div class="mb-4">
+                        <label for="orderStatus" class="block text-sm font-medium text-gray-700">Status</label>
+                        {{ order_form.order_status }}
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Customer Information</h3>
+                    <div class="mb-4">
+                        <label for="customerName" class="block text-sm font-medium text-gray-700">Name</label>
+                        {{ order_form.customer_name }}
+                    </div>
+                    <div class="mb-4">
+                        <label for="customerEmail" class="block text-sm font-medium text-gray-700">Email</label>
+                        {{ order_form.customer_email }}
+                    </div>
+                    <div class="mb-4">
+                        <label for="customerPhone" class="block text-sm font-medium text-gray-700">Phone</label>
+                        {{ order_form.customer_phone }}
+                    </div>
+                    <div class="mb-4">
+                        <label for="customerAddress" class="block text-sm font-medium text-gray-700">Address</label>
+                        {{ order_form.customer_address }}
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-xl font-semibold mt-8 mb-4">Order Items</h3>
+            <table class="w-full mb-4">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="p-2 text-left">Product</th>
+                        <th class="p-2 text-left">Quantity</th>
+                        <th class="p-2 text-left">Price</th>
+                        <th class="p-2 text-left">Total</th>
+                        <th class="p-2 text-left">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item_form in order_items_forms %}
+                        <tr class="border-b">
+                            <td class="p-2">{{ item_form.product_name }}</td>
+                            <td class="p-2">{{ item_form.quantity }}</td>
+                            <td class="p-2">{{ item_form.price }}</td>
+                            <td class="p-2">${{ item_form.quantity.value|add:item_form.price.value }}</td>
+                            <td class="p-2">
+                                <button type="button" class="text-red-600 hover:text-red-800">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+
+            <div class="mt-8 flex justify-end space-x-4">
+                <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition-colors duration-200">
+                    <i class="fas fa-save mr-2"></i>Save Changes
+                </button>
+                <a href="{% url 'orders:list' %}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition-colors duration-200">
+                    <i class="fas fa-times mr-2"></i>Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+{% endblock %}
