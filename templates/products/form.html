@@ -1,91 +1,86 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add/Edit Product - E-commerce Admin Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-indigo-600 text-white p-6 hidden md:block">
+            <h1 class="text-2xl font-bold mb-8">Admin Panel</h1>
+            <nav>
+                <ul class="space-y-4">
+                    <li><a href="../index.html" class="block py-2 px-4 rounded hover:bg-indigo-700 transition-colors duration-200"><i class="fas fa-chart-line mr-2"></i>Dashboard</a></li>
+                    <li><a href="#" class="block py-2 px-4 rounded hover:bg-indigo-700 transition-colors duration-200"><i class="fas fa-list mr-2"></i>Categories</a></li>
+                    <li><a href="list.html" class="block py-2 px-4 rounded bg-indigo-700 transition-colors duration-200"><i class="fas fa-box mr-2"></i>Products</a></li>
+                    <li><a href="#" class="block py-2 px-4 rounded hover:bg-indigo-700 transition-colors duration-200"><i class="fas fa-shopping-cart mr-2"></i>Orders</a></li>
+                </ul>
+            </nav>
+        </aside>
 
-
-{% block title %} {% if product %} Edit Product - E-commerce Admin Panel {% else %} Add Product - E-commerce Admin Panel {% endif %} {% endblock %}
-
-
-{% block content %}
-             <header class="flex justify-between items-center mb-8">
-                <h2 class="text-3xl font-bold text-gray-800">{% if product %} Edit Product {% else %} Add Product {% endif %}</h2>
+        <!-- Main Content -->
+        <main class="flex-1 p-8 overflow-y-auto">
+            <header class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-800">Add/Edit Product</h2>
                 <button class="md:hidden bg-indigo-600 text-white p-2 rounded" onclick="toggleSidebar()">
                     <i class="fas fa-bars"></i>
                 </button>
             </header>
 
-
-        <div class="bg-white p-6 rounded-lg shadow-md animate-fadeIn">
-            <form method="post" class="space-y-4" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div>
-                    <label for="{{ form.name.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ form.name.label }}</label>
-                    {{ form.name }}
-                    {% if form.name.errors %}
-                        <ul class="mt-1 text-sm text-red-600">
-                            {% for error in form.name.errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </div>
-
-                <div>
-                    <label for="{{ form.category.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ form.category.label }}</label>
-                    {{ form.category }}
-                    {% if form.category.errors %}
-                        <ul class="mt-1 text-sm text-red-600">
-                            {% for error in form.category.errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </div>
-
-                <div>
-                    <label for="{{ form.price.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ form.price.label }}</label>
-                    {{ form.price }}
-                    {% if form.price.errors %}
-                        <ul class="mt-1 text-sm text-red-600">
-                            {% for error in form.price.errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </div>
-
-                <div>
-                    <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ form.description.label }}</label>
-                    {{ form.description }}
-                    {% if form.description.errors %}
-                        <ul class="mt-1 text-sm text-red-600">
-                            {% for error in form.description.errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </div>
-
-                <div>
-                    <label for="{{ form.image.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ form.image.label }}</label>
-                    {{ form.image }}
-                    {% if form.image.errors %}
-                        <ul class="mt-1 text-sm text-red-600">
-                            {% for error in form.image.errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </div>
-
-                <div class="flex justify-end space-x-4">
-                    {% if product %}
-                        <a href="{{ product.get_detail_url }}" class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition-colors duration-200">Cancel</a>
-                        <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition-colors duration-200">Update Product</button>
-                    {% else %}
-                        <a href="{% url 'products:list' %}" class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition-colors duration-200">Cancel</a>
+            <!-- Product Form -->
+            <div class="bg-white p-6 rounded-lg shadow-md animate-fadeIn">
+                <form action="list.html" method="GET" class="space-y-4">
+                    <div>
+                        <label for="productName" class="block text-sm font-medium text-gray-700">Product Name</label>
+                        <input type="text" id="productName" name="productName" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+                    <div>
+                        <label for="productCategory" class="block text-sm font-medium text-gray-700">Category</label>
+                        <select id="productCategory" name="productCategory" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            <option>Electronics</option>
+                            <option>Clothing</option>
+                            <option>Books</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="productPrice" class="block text-sm font-medium text-gray-700">Price</label>
+                        <input type="number" id="productPrice" name="productPrice" step="0.01" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+                    <div>
+                        <label for="productDescription" class="block text-sm font-medium text-gray-700">Description</label>
+                        <textarea id="productDescription" name="productDescription" rows="3" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                    </div>
+                    <div>
+                        <label for="productImage" class="block text-sm font-medium text-gray-700">Product Image</label>
+                        <input type="file" id="productImage" name="productImage" class="mt-1 block w-full">
+                    </div>
+                    <div class="flex justify-end space-x-4">
+                        <a href="list.html" class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition-colors duration-200">Cancel</a>
                         <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition-colors duration-200">Save Product</button>
-                    {% endif %}
-                </div>
-            </form>
-        </div>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
 
-{% endblock %}
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.querySelector('aside');
+            sidebar.classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>

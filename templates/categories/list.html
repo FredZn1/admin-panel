@@ -1,10 +1,38 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories - E-commerce Admin Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-indigo-600 text-white p-6 hidden md:block">
+            <h1 class="text-2xl font-bold mb-8">Admin Panel</h1>
+            <nav>
+                <ul class="space-y-4">
+                    <li><a href="../index.html" class="block py-2 px-4 rounded hover:bg-indigo-700 transition-colors duration-200"><i class="fas fa-chart-line mr-2"></i>Dashboard</a></li>
+                    <li><a href="#" class="block py-2 px-4 rounded bg-indigo-700 transition-colors duration-200"><i class="fas fa-list mr-2"></i>Categories</a></li>
+                    <li><a href="../products/list.html" class="block py-2 px-4 rounded hover:bg-indigo-700 transition-colors duration-200"><i class="fas fa-box mr-2"></i>Products</a></li>
+                    <li><a href="../orders/list.html" class="block py-2 px-4 rounded hover:bg-indigo-700 transition-colors duration-200"><i class="fas fa-shopping-cart mr-2"></i>Orders</a></li>
+                </ul>
+            </nav>
+        </aside>
 
-
-{% block title %} E-commerce Admin Panel  {% endblock %}
-
-
-{% block content %}
+        <!-- Main Content -->
+        <main class="flex-1 p-8 overflow-y-auto">
             <header class="flex justify-between items-center mb-8">
                 <h2 class="text-3xl font-bold text-gray-800">Categories</h2>
                 <button class="md:hidden bg-indigo-600 text-white p-2 rounded" onclick="toggleSidebar()">
@@ -12,27 +40,25 @@
                 </button>
             </header>
 
-
+            <!-- Category List Controls -->
             <div class="bg-white p-6 rounded-lg shadow-md mb-8 animate-fadeIn">
                 <div class="flex flex-wrap gap-4 items-center justify-between">
-                    <form method="get">
-                        <div class="flex flex-wrap gap-4 items-center">
-                            <input type="text" name="search" placeholder="Search categories" class="border p-2 rounded" value="{{ request.GET.search }}">
-                            <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition-colors duration-200">
-                                <i class="fas fa-search mr-2"></i>Search
-                            </button>
-                        </div>
-                    </form>
+                    <div class="flex flex-wrap gap-4 items-center">
+                        <input type="text" placeholder="Search categories" class="border p-2 rounded">
+                        <button class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition-colors duration-200">
+                            <i class="fas fa-search mr-2"></i>Search
+                        </button>
+                    </div>
                     <div>
-                        <a href="{% url 'categories:create' %}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors duration-200">
+                        <a href="form.html" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors duration-200">
                             <i class="fas fa-plus mr-2"></i>Add Category
                         </a>
                     </div>
                 </div>
             </div>
 
+            <!-- Category List -->
             <div class="bg-white p-6 rounded-lg shadow-md animate-fadeIn">
-            {% if categories %}
                 <table class="w-full">
                     <thead>
                         <tr class="bg-gray-100">
@@ -43,22 +69,47 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for category in categories %}
-                            <tr class="border-b">
-                                <td class="p-2">{{ category.id }}</td>
-                                <td class="p-2">{{ category.name }}</td>
-                                <td class="p-2">{{ category.products.count }}</td>
-                                <td class="p-2">
-                                    <a href="{{ category.get_detail_url }}" class="text-blue-600 hover:text-blue-800 mr-2"><i class="fas fa-eye"></i></a>
-                                    <a href="{{ category.get_update_url }}" class="text-yellow-600 hover:text-yellow-800 mr-2"><i class="fas fa-edit"></i></a>
-                                    <a href="{{ category.get_delete_url }}" class="text-red-600 hover:text-red-800"><i class="fas fa-trash"></i></a>
-                                </td>
-                            </tr>
-                        {% endfor %}
+                        <tr class="border-b">
+                            <td class="p-2">1</td>
+                            <td class="p-2">Electronics</td>
+                            <td class="p-2">150</td>
+                            <td class="p-2">
+                                <a href="detail.html" class="text-blue-600 hover:text-blue-800 mr-2"><i class="fas fa-eye"></i></a>
+                                <a href="form.html" class="text-yellow-600 hover:text-yellow-800 mr-2"><i class="fas fa-edit"></i></a>
+                                <a href="delete-confirm.html" class="text-red-600 hover:text-red-800"><i class="fas fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-2">2</td>
+                            <td class="p-2">Clothing</td>
+                            <td class="p-2">200</td>
+                            <td class="p-2">
+                                <a href="detail.html" class="text-blue-600 hover:text-blue-800 mr-2"><i class="fas fa-eye"></i></a>
+                                <a href="form.html" class="text-yellow-600 hover:text-yellow-800 mr-2"><i class="fas fa-edit"></i></a>
+                                <a href="delete-confirm.html" class="text-red-600 hover:text-red-800"><i class="fas fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="p-2">3</td>
+                            <td class="p-2">Books</td>
+                            <td class="p-2">100</td>
+                            <td class="p-2">
+                                <a href="detail.html" class="text-blue-600 hover:text-blue-800 mr-2"><i class="fas fa-eye"></i></a>
+                                <a href="form.html" class="text-yellow-600 hover:text-yellow-800 mr-2"><i class="fas fa-edit"></i></a>
+                                <a href="delete-confirm.html" class="text-red-600 hover:text-red-800"><i class="fas fa-trash"></i></a>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
-            {% else %}
-                <h3>No Category!</h3>
-            {% endif %}
             </div>
-{% endblock %}
+        </main>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.querySelector('aside');
+            sidebar.classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>

@@ -11,12 +11,12 @@ def home(request):
 def product_list(request):
     products = Product.objects.all()
     ctx = {'products': products}
-    return render(request, 'products/product_list.html', ctx)
+    return render(request, 'products/list.html', ctx)
 
 def product_detail(request, pk):
     product = get_object_or_404(Product, pk=pk)
     ctx = {'product': product}
-    return render(request, 'products/product_detail.html', ctx)
+    return render(request, 'products/detail.html', ctx)
 
 def product_create(request):
     if request.method == 'POST':
@@ -27,7 +27,7 @@ def product_create(request):
     else:
         form = ProductForm()
     ctx = {'form': form}
-    return render(request, 'products/product_form.html', ctx)
+    return render(request, 'products/form.html', ctx)
 
 def product_update(request, pk):
     product = get_object_or_404(Product, pk=pk)
@@ -39,7 +39,7 @@ def product_update(request, pk):
     else:
         form = ProductForm(instance=product)
     ctx = {'form': form}
-    return render(request, 'products/product_form.html', ctx)
+    return render(request, 'products/form.html', ctx)
 
 def product_delete(request, pk):
     product = get_object_or_404(Product, pk=pk)
@@ -47,4 +47,4 @@ def product_delete(request, pk):
         product.delete()
         return redirect('products:list')
     ctx = {'product': product}
-    return render(request, 'products/product_confirm_delete.html', ctx)
+    return render(request, 'products/delete-confirm.html', ctx)
