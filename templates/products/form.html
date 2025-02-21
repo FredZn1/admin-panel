@@ -1,86 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add/Edit Product - E-commerce Admin Panel</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .animate-fadeIn {
-            animation: fadeIn 0.5s ease-in-out;
-        }
-    </style>
-</head>
-<body class="bg-gray-100 font-sans">
-    <div class="flex h-screen">
-        <!-- Sidebar -->
-        <aside class="w-64 bg-indigo-600 text-white p-6 hidden md:block">
-            <h1 class="text-2xl font-bold mb-8">Admin Panel</h1>
-            <nav>
-                <ul class="space-y-4">
-                    <li><a href="../index.html" class="block py-2 px-4 rounded hover:bg-indigo-700 transition-colors duration-200"><i class="fas fa-chart-line mr-2"></i>Dashboard</a></li>
-                    <li><a href="#" class="block py-2 px-4 rounded hover:bg-indigo-700 transition-colors duration-200"><i class="fas fa-list mr-2"></i>Categories</a></li>
-                    <li><a href="list.html" class="block py-2 px-4 rounded bg-indigo-700 transition-colors duration-200"><i class="fas fa-box mr-2"></i>Products</a></li>
-                    <li><a href="#" class="block py-2 px-4 rounded hover:bg-indigo-700 transition-colors duration-200"><i class="fas fa-shopping-cart mr-2"></i>Orders</a></li>
-                </ul>
-            </nav>
-        </aside>
+{% extends 'base.html' %}
 
-        <!-- Main Content -->
-        <main class="flex-1 p-8 overflow-y-auto">
-            <header class="flex justify-between items-center mb-8">
-                <h2 class="text-3xl font-bold text-gray-800">Add/Edit Product</h2>
-                <button class="md:hidden bg-indigo-600 text-white p-2 rounded" onclick="toggleSidebar()">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </header>
+{% block title %} {% if form.instance.pk %} Update {% else %} Add {% endif %} Product - E-commerce Admin Panel {% endblock %}
 
-            <!-- Product Form -->
-            <div class="bg-white p-6 rounded-lg shadow-md animate-fadeIn">
-                <form action="list.html" method="GET" class="space-y-4">
-                    <div>
-                        <label for="productName" class="block text-sm font-medium text-gray-700">Product Name</label>
-                        <input type="text" id="productName" name="productName" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                    </div>
-                    <div>
-                        <label for="productCategory" class="block text-sm font-medium text-gray-700">Category</label>
-                        <select id="productCategory" name="productCategory" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                            <option>Electronics</option>
-                            <option>Clothing</option>
-                            <option>Books</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="productPrice" class="block text-sm font-medium text-gray-700">Price</label>
-                        <input type="number" id="productPrice" name="productPrice" step="0.01" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                    </div>
-                    <div>
-                        <label for="productDescription" class="block text-sm font-medium text-gray-700">Description</label>
-                        <textarea id="productDescription" name="productDescription" rows="3" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
-                    </div>
-                    <div>
-                        <label for="productImage" class="block text-sm font-medium text-gray-700">Product Image</label>
-                        <input type="file" id="productImage" name="productImage" class="mt-1 block w-full">
-                    </div>
-                    <div class="flex justify-end space-x-4">
-                        <a href="list.html" class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition-colors duration-200">Cancel</a>
-                        <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition-colors duration-200">Save Product</button>
-                    </div>
-                </form>
+{% block content %}
+<header class="flex justify-between items-center mb-8">
+    <h2 class="text-3xl font-bold text-gray-800">
+        {% if form.instance.pk %} Update {% else %} Add {% endif %} Product
+    </h2>
+</header>
+
+<div class="bg-white p-6 rounded-lg shadow-md">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="grid grid-cols-1 gap-4">
+            <div>
+                <label for="id_name" class="block text-sm font-medium text-gray-700">Product Name</label>
+                {{ form.name }}
             </div>
-        </main>
-    </div>
-
-    <script>
-        function toggleSidebar() {
-            const sidebar = document.querySelector('aside');
-            sidebar.classList.toggle('hidden');
-        }
-    </script>
-</body>
-</html>
+            <div>
+                <label for="id_category" class="block text-sm font-medium text-gray-700">Category</label>
+                {{ form.category }}
+            </div>
+            <div>
+                <label for="id_price" class="block text-sm font-medium text-gray-700">Price</label>
+                {{ form.price }}
+            </div>
+            <div>
+                <label for="id_description" class="block text-sm font-medium text-gray-700">Description</label>
+                {{ form.description }}
+            </div>
+            <div>
+                <label for="id_image" class="block text-sm font-medium text-gray-700">Image</label>
+                {{ form.image }}
+            </div>
+        </div>
+        <div class="flex justify-end space-x-4 mt-4">
+            <a href="{% url 'products:list' %}" class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400">Cancel</a>
+            <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">Save Product</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

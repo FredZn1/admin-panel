@@ -23,12 +23,12 @@ class Product(BaseModel):
         super(Product, self).save(*args, **kwargs)
 
     def get_detail_url(self):
-        return reverse('products:detail', args=[
-            self.created_at.year,
-            self.created_at.month,
-            self.created_at.day,
-            self.slug
-        ])
+        return reverse('products:detail', kwargs={
+            'year': self.created_at.year,
+            'month': self.created_at.month,
+            'day': self.created_at.day,
+            'slug': self.slug
+        })
 
     def get_update_url(self):
         return reverse('products:update', args=[self.pk])

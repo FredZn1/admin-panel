@@ -36,7 +36,7 @@ def product_list(request):
         'category': category,
         'search': search_query,
     }
-    return render(request, 'list.html', ctx)
+    return render(request, 'products/list.html', ctx)
 
 
 
