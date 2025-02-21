@@ -4,6 +4,10 @@ from categories.models import Category
 from .models import Product
 from .forms import ProductForm
 
+def home(request):
+    products = Product.objects.all()
+    ctx = {products: products}
+    return render(request, 'index.html', ctx)
 
 def product_list(request):
     products = Product.objects.all()
@@ -32,7 +36,7 @@ def product_list(request):
         'category': category,
         'search': search_query,
     }
-    return render(request, 'products/list.html', ctx)
+    return render(request, 'list.html', ctx)
 
 
 

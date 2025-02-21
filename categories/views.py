@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from .forms import CategoryForm
 from .models import Category
 
@@ -12,17 +13,15 @@ def category_list(request):
     ctx = {'categories': categories}
     return render(request, 'categories/list.html', ctx)
 
-from django.contrib import messages
-from django.shortcuts import render, redirect, get_object_or_404
 
 def category_create(request):
     if request.method == 'POST':
         form = CategoryForm(request.POST, request.FILES)
         if form.is_valid():
             Category.objects.create(
-                name = form.cleaned_data['name'],
-                description = form.cleaned_data['description'],
-                icons = request.FILES['icons'],
+                name=form.cleaned_data['name'],
+                description=form.cleaned_data['description'],
+                icons=request.FILES['icons'],
             )
             messages.success(request, "Category successfully created!")
             return redirect('categories:list')
@@ -34,6 +33,7 @@ def category_create(request):
     form = CategoryForm()
     ctx = {'form': form}
     return render(request, 'categories/form.html', ctx)
+
 
 def category_update(request, pk):
     category = get_object_or_404(Category, pk=pk)
@@ -63,6 +63,7 @@ def category_update(request, pk):
     }
     return render(request, 'categories/form.html', ctx)
 
+
 def category_detail(request, year, month, day, slug):
     category = get_object_or_404(
         Category,
@@ -73,6 +74,7 @@ def category_detail(request, year, month, day, slug):
     )
     ctx = {'category': category}
     return render(request, 'categories/detail.html', ctx)
+
 
 def category_delete(request, pk):
     category = get_object_or_404(Category, pk=pk)
