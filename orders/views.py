@@ -5,12 +5,12 @@ from .forms import OrderForm
 def order_list(request):
     orders = Order.objects.all()
     ctx = {'orders': orders}
-    return render(request, 'list.html', ctx)
+    return render(request, 'orders/list.html', ctx)
 
 def order_detail(request, pk):
     order = get_object_or_404(Order, pk=pk)
     ctx = {'order': order}
-    return render(request, 'detail.html', ctx)
+    return render(request, 'orders/detail.html', ctx)
 
 def order_create(request):
     if request.method == 'POST':
@@ -21,7 +21,7 @@ def order_create(request):
     else:
         form = OrderForm()
     ctx = {'form': form}
-    return render(request, 'form.html', ctx)
+    return render(request, 'orders/form.html', ctx)
 
 def order_update(request, pk):
     order = get_object_or_404(Order, pk=pk)
@@ -33,7 +33,7 @@ def order_update(request, pk):
     else:
         form = OrderForm(instance=order)
     ctx = {'form': form}
-    return render(request, 'form.html', ctx)
+    return render(request, 'orders/form.html', ctx)
 
 def order_delete(request, pk):
     order = get_object_or_404(Order, pk=pk)
@@ -41,4 +41,4 @@ def order_delete(request, pk):
         order.delete()
         return redirect('orders:list')
     ctx = {'order': order}
-    return render(request, 'list.html', ctx)
+    return render(request, 'orders/list.html', ctx)
